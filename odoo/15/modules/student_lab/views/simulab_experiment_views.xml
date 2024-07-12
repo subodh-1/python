@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_simulab_experiment_tag_form" model="ir.ui.view">
+        <field name="name">simulab.experiment.tag.form</field>
+        <field name="model">simulab.experiment.tag</field>
+        <field name="arch" type="xml">
+            <form string="Tag">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_simulab_experiment_tag_tree" model="ir.ui.view">
+        <field name="name">simulab.experiment.tag.tree</field>
+        <field name="model">simulab.experiment.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Tags" editable="bottom">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_simulab_experiment_tag" model="ir.actions.act_window">
+        <field name="name">Simulab Experiment Tags</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">simulab.experiment.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- SLIDE.SLIDE -->
+    <record id="view_simulab_experiment_form" model="ir.ui.view">
+        <field name="name">simulab.experiment.form</field>
+        <field name="model">simulab.experiment</field>
+        <field name="arch" type="xml">
+            <form string="Experiment">
+                <sheet>
+                    <field name="is_published" invisible="1"/>
+                    <div class="oe_button_box oe_read_only" name="button_box">
+                        <field name="simulab_id" class="oe_left"
+                            style="max-height:120px; padding:15px" />
+
+                        <button name="action_count_members" type="object" icon="fa-users"  style="width:150pt;"
+                            class="oe_stat_button">
+                            <field name="members_count" string="Enrolled Students" widget="statinfo"/>
+                        </button>
+
+                        <button name="action_publish" type="object" groups="simulab.group_simulab_administration" icon="fa-university" string="Publish Now" style="color:red"
+                            class="oe_stat_button" attrs="{'invisible': [('is_published', '=', True)]}">
+                        </button>
+
+                        <button name="action_published" type="object" groups="simulab.group_simulab_administration" icon="fa-university" string="Published" style="color:green"
+                            class="oe_stat_button" attrs="{'invisible': [('is_published', '=', False)]}">
+                        </button>
+
+                    </div>
+
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}" />
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                        options='{"preview_image": "image_256"}' />
+                    <div class="oe_title">
+                        <div>
+                            <label for="name" string="Experiment Name" />
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1"
+                                placeholder="e.g. Determination of concentration of KMnO₄ solution" />
+                        </h1>
+                        <field name="tag_ids" widget="many2many_tags"
+                            options="{'color_field': 'color'}" placeholder="Tags..." />
+                    </div>
+                    <field name="experiment_details"
+                        placeholder="Describe about the simulation/experiments"
+                        class="oe_read_only" />
+                    <group>
+                        <group name="lesson_details">
+                            <field name="active" invisible="1" />
+                            <field name="parent_id" />                        
+                            <field name="medium_id" />
+                            <field name="grade_id" />
+                            <field name="subject_id" />
+                            <field name="completion_days" />
+                        </group>
+                        <group name="related_details">
+                            <field name="user_id" />
+                            <label for="completion_time" />
+                            <div>
+                                <field name="completion_time" widget="float_time"
+                                    class="oe_inline" />
+                                <span>Mins.</span>
+                            </div>
+                            <field name="date_published" string="Published Date"
+                                attrs="{'invisible': [('date_published', '=', False)]}"
+                                groups="base.group_no_one" />
+                            <field name="simulation_name" groups="simulab.group_simulab_administration"/>
+                        </group>
+                    </group>
+                    <group string="Experiment Theory" groups="simulab.group_simulab_administration"
+                        class="oe_edit_only">
+                        <field name="exp_header" colspan="4" widget="html"  />
+                        <field name="preview" colspan="4" widget="html"  />
+                        <field name="summary" colspan="4" widget="html"  />
+                        <field name="objective" colspan="4" widget="html" />
+                        <field name="description" colspan="4" widget="html" />
+
+                        <field name="exp_qna">
+                            <tree>
+                                <field name="name" string="Question"/>
+                                <field name="description" string="Answer"/>
+                            </tree>
+                            <form string="Question And Answer">
+                                <field name="name" string="Question"/>
+                                <field name="description_html" string="Answer"/>
+                            </form>
+                        </field>
+
+                    </group>
+                    <group string="Experiment Theory" groups="simulab.group_simulab_administration" >
+                        <field name="theory_details" nolabel="1">
+                            <tree >
+                                <field name="description"  />
+                                <field name="experiment_info"  />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </tree>
+
+                            <form string="Experiment Theory">
+                                <field name="experiment_info"  />
+                                <field name="description"  />
+                                <field name="description_html" />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Simulation Story" groups="simulab.group_simulab_administration" >
+                        <field name="simulation_stories" nolabel="1">
+                            <tree >
+                                <field name="experiment_info"  />
+                                <field name="description" widget="html" />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </tree>
+
+                            <form string="Simulation Story">
+                                <field name="experiment_info"  />
+                                <field name="description_html" />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Theory Technique" groups="simulab.group_simulab_administration" >
+                        <field name="theory_techniques" nolabel="1">
+                            <tree >
+                                <field name="experiment_info"  />
+                                <field name="description"  />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </tree>
+
+                            <form string="Theory Technique">
+                                <field name="experiment_info"  />
+                                <field name="description_html" />
+                                <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                    options='{"preview_image": "image_256"}' />
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Experiment Fun Facts" groups="simulab.group_simulab_administration" >
+                        <field name="fun_fcts" nolabel="1">
+                                <tree string="Fun Facts">
+                                    <field name="experiment_info"  />
+                                    <field name="name"  />
+                                    <field name="description"  />
+                                    <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                        options='{"preview_image": "image_256"}' />
+                                </tree>
+
+                                <form string="Fun Facts">
+                                    <field name="experiment_info"  />
+                                    <field name="description"  />
+                                    <field name="name"  />
+                                    <field name="description_html" />
+                                    <field name="image_1920" widget="image" class="oe_avatar" string="Infographics"
+                                        options='{"preview_image": "image_256"}' />
+                                </form>
+                        </field>
+                    </group>
+                    <group string="Experiment Links" groups="simulab.group_simulab_administration"
+                        class="oe_edit_only">
+                        <field name="theory_links" nolabel="1">
+                            <tree editable="bottom" string="Theory Links">
+                                <field name="name" />
+                                <field name="link" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group name="quiz_details" string="Experiemnts Quizes">
+                        <field name="quiz_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="sequence" widget="handle" />
+                                <field name="name" />
+                                <field name="question_count" />
+                                <field name="completion_time" widget="float_time"/>
+                                <field name="marks" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group name="Competitive Exam Marks" string="Competitive Exam Marks">
+                        <field name="marks_ids" string="Content" colspan="4" nolabel="1">
+                            <tree>
+                                <field name="name" />
+                                <field name="marks" />
+                                <field name="note" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_simulab_experiment_form_read" model="ir.ui.view">
+        <field name="name">simulab.experiment_read.form</field>
+        <field name="model">simulab.experiment</field>
+        <field name="arch" type="xml">
+            <form string="Experiment">
+                <sheet>
+                    <div class="row" style="background-color: aliceblue;margin-top: -24px;padding: 20px;">
+                        <style>
+                            .o_form_view .oe_avatar > img {
+                            max-width: 150px;
+                            max-height: 150px;
+                            width: 150px;
+                            height: 150px;
+                            border-radius: 75px;
+                            margin-top: 20px;
+                            }
+                            .container > h4{
+                            font-family: 'Ubuntu';
+                            font-style: normal;
+                            color: #1A1C29;
+                            font-size: 20px;}
+                            .container2{
+                                    font-family: 'Lato';
+                                    font-style: normal;
+                                    color: #6A6F77;
+                                    font-size: 12px;
+                                }
+                            .card {
+                                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                                transition: 0.3s;
+                                border-radius: 5px;
+                                padding: 10px;
+                                }
+
+                                .card:hover {
+                                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+                                }
+                            .container4{
+                            font-family: 'Ubuntu';
+                            font-style: normal;
+                            color: #1A1C29;
+                            font-size: 14px;}
+
+                        </style>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-12 container">
+                                    <h4 style="margin-top: 20px;">
+                                        <field name="name"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 container2">
+                                    AIM: <field name="objective"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8 container2">
+                                    <img src="/simulab/static/src/img/time-management-hand.png" alt="Avatar"
+                                             style="width:50px;height: 50px;"/>
+                                    <span>Hey there! you get <field name="completion_days"/> days to complete the experiment after starting</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <field name="image_1920" widget="image" class="oe_avatar" options='{"preview_image": "image_256"}' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 20px;padding-left: 20px;">
+                        <div class="col-12 container">
+                            <h4>Experiment</h4>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left: 20px;">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="row">
+                                    <style>
+                                        .img_div > .o_field_image > img{
+                                        border-radius: 0px;
+                                        margin: 0px;
+                                        }
+                                        .text_view{
+                                        word-break: break-word;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        line-height: 16px;
+                                        max-height: 32px;
+                                        -webkit-line-clamp: 2;
+                                        -webkit-box-orient: vertical;
+                                        }
+                                    </style>
+                                    <div class="col-4 img_div">
+                                        <field name="image_1920" widget="image" class="oe_avatar" options='{"preview_image": "image_256"}' />
+                                    </div>
+                                    <div class="col-8" style="text-align: initial;padding: 0px;padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4 style="padding-top: 10px;">
+                                                <b>
+                                                    <field name="name"/>
+                                                </b>
+                                            </h4>
+                                        </span>
+                                        <div class="container4 text_view">
+                                            <field name="preview" widget="html"/>
+                                        </div>
+                                        <div class="container4" style="margin-top: 5px;">
+                                            <img src="/simulab/static/src/img/clock.png" alt="Avatar" style="width: 20px;height: 20px;margin-right: 5px;"/>
+                                            <field name="completion_time" widget="float_time"/>
+                                        </div>
+
+                                        <button string="START EXPERIMENT" class="btn-primary" style="background-color: #0b76ea;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="row">
+                                    <style>
+                                        .text_view_2{
+                                        word-break: break-word;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        line-height: 16px;
+                                        max-height: 100px;
+                                        -webkit-line-clamp: 4;
+                                        -webkit-box-orient: vertical;
+                                        }
+                                    </style>
+                                    <div class="col-12" style="text-align: initial;padding: 0px;padding-top: 10px;padding-left: 20px; padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4>
+                                                <b>
+                                                    What you’ll learn:
+                                                </b>
+                                            </h4>
+                                        </span>
+                                        <div class="container4">
+                                            <p class="text_view_2">
+
+                                           <field name="summary" widget="html"/>
+                                            </p>
+                                        </div>
+                                        <button string="Read More" class="oe_link alert-link" style="color: #0b76ea; float: right;margin-right: 10px;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 20px;padding-left: 20px;">
+                        <div class="col-12 container">
+                            <h4>Study Material</h4>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left: 20px;">
+                        <div class="col-6">
+                            <style>
+                                        .text_view_3{
+                                        word-break: break-word;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        line-height: 16px;
+                                        max-height: 180px;
+                                        -webkit-line-clamp: 4;
+                                        -webkit-box-orient: vertical;
+                                }
+                                .container5{
+                                font-family: 'Ubuntu';
+                                font-style: normal;
+                                color: ##6A6F77;
+                                font-size: 14px;
+                                }
+                            </style>
+                            <div class="card" style="height:180px;background-color: #EDF5FD66;">
+                                <div class="row">
+                                    <div class="col-4 img_div">
+                                        <field name="theory_image"/>
+                                    </div>
+                                    <div class="col-8" style="text-align: initial;padding: 0px;padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4 style="padding-top: 10px;">
+                                                Theory notes
+                                            </h4>
+                                        </span>
+                                        <div class="container5 text_view_3">
+                                            <field name="theory_text" widget="html"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card" style="height:180px;background-color: #EDF5FD66;">
+                                <div class="row">
+                                    <div class="col-4 img_div">
+                                        <field name="simulation_stories_image"/>
+                                    </div>
+                                    <div class="col-8" style="text-align: initial;padding: 0px;padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4 style="padding-top: 10px;">
+                                                Simulation story
+                                            </h4>
+                                        </span>
+                                        <div class="container5 text_view_3">
+                                            <field name="simulation_stories_text" widget="html"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left: 20px;padding-top: 15px;">
+                        <div class="col-6">
+                            <div class="card" style="height:180px;background-color: #EDF5FD66;">
+                                <div class="row">
+                                    <div class="col-4 img_div">
+                                        <field name="fun_image"/>
+                                    </div>
+                                    <div class="col-8" style="text-align: initial;padding: 0px;padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4 style="padding-top: 10px;">
+                                                Fun Facts
+                                            </h4>
+                                        </span>
+                                        <div class="container5 text_view_3">
+                                            <field name="fun_fcts_text" widget="html"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card" style="height:180px;background-color: #EDF5FD66;">
+                                <div class="row">
+                                    <div class="col-4 img_div">
+                                        <field name="theory_techniques_image"/>
+                                    </div>
+                                    <div class="col-8" style="text-align: initial;padding: 0px;padding-right: 10px;">
+                                        <span class="container4">
+                                            <h4 style="padding-top: 10px;">
+                                                Quiz Time
+                                            </h4>
+                                        </span>
+                                        <div class="container5 text_view_3">
+                                            <field name="theory_techniques_text" widget="html"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_simulab_experiment_tree" model="ir.ui.view">
+        <field name="name">simulab.experiment.tree</field>
+        <field name="model">simulab.experiment</field>
+        <field name="arch" type="xml">
+            <tree string="Experiments" sample="1">
+                <field name="name" />
+                <field name="simulab_id" class="oe_read_only"
+                    groups="simulab.group_simulab_administration" />
+                <field name="parent_id" /> 
+                <field name="medium_id" />
+                <field name="grade_id" />
+                <field name="subject_id" />
+                <field name="preview" />
+                <field name="members_count" />
+                <field name="completion_time" widget="float_time"/>
+                <field name="is_published" groups="simulab.group_simulab_administration" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="simulab_experiment_action" model="ir.actions.act_window">
+        <field name="name">Experiments</field>
+        <field name="res_model">simulab.experiment</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new lesson
+            </p>
+        </field>
+    </record>
+
+    <record id="simulab_experiment_action1" model="ir.actions.act_window">
+        <field name="name">Experiments</field>
+        <field name="res_model">simulab.experiment</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_simulab_experiment_form_read"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new lesson
+            </p>
+        </field>
+    </record>
+
+</odoo>

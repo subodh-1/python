@@ -1,0 +1,12 @@
+
+ .o_arrow_button.btn-primary.disabled {
+        color: black !important;
+        background: yellow !important;
+    }
+
+.o_arrow_button.btn-primary::after {
+   border-left-color: yellow !important;
+}
+
+
+ 

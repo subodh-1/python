@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="web_confirm_on_save assets" inherit_id="web.assets_backend">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/kts_js_utils/static/src/js/status_bar_confirm_on_click.js"></script>
+        </xpath>
+    </template>
+</odoo>

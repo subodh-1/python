@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="status_wise_user_view" model="ir.ui.view">
+        <field name="name">helpdesk.incident.status_user</field>
+        <field name="model">helpdesk.incident</field>
+        <field name="arch" type="xml">
+            <graph string="Count of Incident Number by Assigned User and Status" type="bar" sample="1" disable_linking="1">
+                <field name="responsible_user"/>
+                <field name="workflow_stage_id" type="row"/>
+            </graph>
+        </field>
+    </record>
+    <record id="act_status_user_wise" model="ir.actions.act_window">
+        <field name="name">Count of Incident Number by Assigned User and Status</field>
+        <field name="res_model">helpdesk.incident</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="status_wise_user_view"/>
+    </record>
+
+    <record id="status_wise_graph_view" model="ir.ui.view">
+        <field name="name">helpdesk.incident.status_graph</field>
+        <field name="model">helpdesk.incident</field>
+        <field name="arch" type="xml">
+            <graph string="Incident Status" type="pie" disable_linking="1">
+                <field name="workflow_stage_id"/>
+            </graph>
+        </field>
+    </record>
+    <record id="act_status_wise_graph" model="ir.actions.act_window">
+        <field name="name">Incident Status</field>
+        <field name="res_model">helpdesk.incident</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="status_wise_graph_view"/>
+    </record>
+
+    <record id="categories_wise_graph_view" model="ir.ui.view">
+        <field name="name">helpdesk.incident.graph</field>
+        <field name="model">helpdesk.incident</field>
+        <field name="arch" type="xml">
+            <graph string="Categories Wise Issues" type="pie" disable_linking="1">
+                <field name="category_id"/>
+            </graph>
+        </field>
+    </record>
+    <record id="act_categories_wise" model="ir.actions.act_window">
+        <field name="name">Categories Wise Issues</field>
+        <field name="res_model">helpdesk.incident</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="categories_wise_graph_view"/>
+    </record>
+
+    <record model="ir.ui.view" id="dashboard_my_dash_view">
+        <field name="name">My Dashboard</field>
+        <field name="model">board.board</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard">
+                <board style="1-2">
+                    <column>
+                        <action string="Count of Incident Number by Assigned User and Status"
+                                name="%(act_status_user_wise)d"/>
+                        <action string="Categories Wise Issues" name="%(act_categories_wise)d"/>
+                    </column>
+                    <column>
+                        <action string="Incident Status" name="%(act_status_wise_graph)d"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.menu" id="base.menu_board_root">
+        <field name="groups_id" eval="[(6,0,[ref('kts_workflow.make_invisible_1')])]"/>
+    </record>
+
+</odoo>

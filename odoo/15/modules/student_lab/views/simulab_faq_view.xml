@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_simulab_faq_search" model="ir.ui.view">
+        <field name="name">simulab.faq.search</field>
+        <field name="model">simulab.faq</field>
+        <field name="arch" type="xml">
+            <search string="Simulab FAQs">
+                <field name="faq_category_id" />
+                <field name="category_type" />
+                <field name="question" />
+                <field name="answer" />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_simulab_faq_tree" model="ir.ui.view">
+        <field name="name">simulab.faq.tree</field>
+        <field name="model">simulab.faq</field>
+        <field name="arch" type="xml">
+            <tree string="Simulab FAQs">
+                <field name="question" />
+                <field name="answer" />
+                <field name="faq_category_id" />
+                <field name="category_type" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_simulab_faq_form" model="ir.ui.view">
+        <field name="name">simulab.faq.form</field>
+        <field name="model">simulab.faq</field>
+        <field name="arch" type="xml">
+            <form string="Simulab FAQs">
+                <group>
+                    <field name="question" />
+                    <field name="answer" />
+                    <field name="faq_category_id" />
+                    <field name="category_type" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_simulab_faq_form" model="ir.actions.act_window">
+        <field name="name">Simulab FAQs</field>
+        <field name="res_model">simulab.faq</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="view_simulab_faq_category_form" model="ir.ui.view">
+        <field name="name">simulab.faq.category.form</field>
+        <field name="model">simulab.faq.category</field>
+        <field name="arch" type="xml">
+            <form string="Simulab Category FAQs">
+                <group>
+                    <field name="name" />
+                    <field name="category_type" />
+                    <field name="desc" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_simulab_faq_category_tree" model="ir.ui.view">
+        <field name="name">simulab.faq.category.tree</field>
+        <field name="model">simulab.faq.category</field>
+        <field name="arch" type="xml">
+            <tree string="Simulab FAQs Category">
+                <field name="name" />
+                <field name="category_type" />
+                <field name="desc" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_simulab_faq_category" model="ir.actions.act_window">
+        <field name="name">Simulab FAQ Category</field>
+        <field name="res_model">simulab.faq.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>

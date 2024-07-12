@@ -1,0 +1,1 @@
+insure that default.student.company is set in system params and default company is created.

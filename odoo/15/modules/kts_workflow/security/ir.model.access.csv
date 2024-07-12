@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_workflow_model,workflow_model,model_workflow_model,,1,1,1,1
+access_workflow_stage,workflow_stage,model_workflow_stage,,1,1,1,1
+
+read_workflow_team,workflow_team,model_workflow_team,,1,1,1,1
+read_workflow_validation,workflow_validation,model_workflow_validation,,1,1,1,1
+
+read_selected_workflow_line,selected_workflow_line,model_selected_workflow_line,,1,1,1,1
+

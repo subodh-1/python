@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+    <!-- Actions -->
+    <record id="workflow_model_action" model="ir.actions.act_window">
+        <field name="name">Workflow</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">workflow.model</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    <record id="workflow_stage_action" model="ir.actions.act_window">
+        <field name="name">Workflow Stage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">workflow.stage</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="workflow_team_action" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">workflow.team</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="workflow_main_menu" name="Workflows" sequence="10" web_icon="kts_workflow,static/description/workflow.png" groups="kts_workflow.group_defence_admin"/>
+    <menuitem id="workflow_model_menu" name="Workflow" parent="workflow_main_menu" action="workflow_model_action"/>
+    <menuitem id="workflow_team_menu" name="Workflow Teams" parent="workflow_main_menu" action="workflow_team_action"/>
+    <menuitem id="workflow_stage_menu" name="Workflow Stage" parent="workflow_main_menu" action="workflow_stage_action"/>
+</odoo>

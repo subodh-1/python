@@ -1,0 +1,240 @@
+<?xml version="1.0" ?>
+<odoo>
+    <menuitem id="menu_simulab" name="SimuLab" web_icon="school,static/description/ems.png" sequence="1"/>
+
+    <menuitem id="menu_simulab_home_simulab_administration" name="Home" parent="menu_simulab" sequence="2"
+              groups="simulab.group_simulab_administration" action="action_home_page_simulab_administration" />
+    <menuitem id="menu_simulab_home_school_administration" name="Home" parent="menu_simulab" sequence="2"
+              groups="simulab.group_school_administration" action="action_home_page_school_administration" />
+
+    <menuitem id="menu_my_profile" name="My Profile" action="action_school_teacher_self_form"
+        parent="menu_simulab" sequence="3"
+        groups="simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem id="teacher_profile_menu" name="Teachers" action="action_school_teacher_form"
+        parent="menu_simulab" sequence="4"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+
+    <menuitem id="menu_student_profile" name="Students" parent="menu_simulab" action="action_student_student_form_12"
+        sequence="5"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem id="menu_school_standard_form" name="Classes" parent="menu_simulab" action="action_school_standard_form" sequence="6"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Simulab Courses"
+        id="menu_simulab_course"
+        parent="menu_simulab"
+        sequence="7"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Simulab Courses"
+        id="menu_simulab_courses"
+        action="simulab_course_action_overview"
+        parent="menu_simulab_course"
+        sequence="1"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Simulab Experiments"
+        id="menu_simulab_experiment_action"
+        action="simulab_experiment_action"
+        parent="menu_simulab_course"
+        sequence="2"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Simulab Experiment Quizes"
+        id="menu_experiment_quiz_action"
+        action="experiment_quiz_action"
+        parent="menu_simulab_course"
+        sequence="3"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Enrolled Courses"
+        id="menu_enrolled_courses"
+        parent="menu_simulab"
+        sequence="8"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Purchased Courses"
+        id="menu_purchased_courses"
+        action="action_purchased_enrolled_course"
+        parent="menu_enrolled_courses"
+        sequence="1"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Enrolled Courses"
+        id="menu_enrolled_class_courses"
+        action="action_enrolled_course"
+        parent="menu_enrolled_courses"
+        sequence="2"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="All Enrolled Courses"
+        id="menu_all_enrolled_courses"
+        action="action_all_enrolled_courses"
+        parent="menu_enrolled_courses"
+        sequence="3"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Students Enrolled Courses"
+        id="menu_action_student_enrolled_course"
+        action="action_student_enrolled_course"
+        parent="menu_enrolled_courses"
+        sequence="4"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Students Experiments"
+        id="menu_action_student_experiment"
+        action="action_student_experiment"
+        parent="menu_enrolled_courses"
+        sequence="5"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem name="Students Experiment Quizzes"
+        id="menu_experiment_students_quiz_action"
+        action="experiment_students_quiz_action"
+        parent="menu_enrolled_courses"
+        sequence="6"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem name="Students Experiment Quiz Answer"
+        id="menu_student_quiz_answer_action"
+        action="student_quiz_answer_action"
+        parent="menu_enrolled_courses"
+        sequence="7"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem name="Subscription Transactions"
+        id="menu_action_subscription_transactions"
+        action="action_subscription_transactions"
+        parent="menu_enrolled_courses"
+        sequence="8"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <!--
+    <menuitem name="Simulab License Manager"
+        id="menu_action_simulab_license_manager"
+        action="action_simulab_license_manager"
+        parent="menu_enrolled_courses"
+        sequence="9"
+        groups="simulab.group_simulab_administration"
+    />
+    -->
+
+    <menuitem id="menu_simulab_school_sub_form" name="School" parent="menu_simulab" action="action_simulab_school_form"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration"
+    />
+
+
+    <menuitem id="menu_configuration" name="Configurations" parent="menu_simulab" sequence="99"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <!-- MenuItem For Configurations->Standards -->
+    <menuitem id="menu_school_standard" name="Standards" parent="menu_configuration" sequence="9"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration,simulab.group_school_teacher"
+    />
+
+    <menuitem id="menu_sub_school_standard_form" name="Standards" parent="menu_school_standard" action="action_standard_standard_form"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_standard_division_form" name="Sections" parent="menu_simulab" action="action_standard_division_form"
+        groups="simulab.group_simulab_administration,simulab.group_school_administration"
+    />
+
+    <menuitem id="menu_school_department_form" name="Departments" parent="menu_configuration" action="action_school_department"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <!-- MenuItem For Configurations->Subject -->
+    <menuitem id="menu_subject_subject_form" name="Subjects" parent="menu_configuration" sequence="10"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_subject_subject_sub_form" name="Subjects" parent="menu_subject_subject_form" action="action_subject_subject_form"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="meu_school_class_course_price" name="Prices for Institutes" parent="menu_configuration" action="action_school_class_course_price"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_login_otp" name="SMS Register" parent="menu_configuration" action="action_login_otp_form"
+        groups="simulab.group_simulab_administration"
+    />
+<!--
+    <menuitem id="menu_push_notification" name="Push Notificaion" parent="menu_configuration" action="action_firebase_push_form"
+        groups="simulab.group_simulab_administration"
+    />
+-->
+    <menuitem id="menu_action_state_city" name="Cities" parent="menu_configuration" action="action_state_city"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_action_student_exams" name="Competitive Exams" parent="menu_configuration" action="action_student_exams"
+        groups="simulab.group_simulab_administration"
+    />  
+
+    <menuitem id="menu_action_student_institute" name="Student Institutions" parent="menu_configuration" action="action_student_institute"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_simulab_course_tag_action" name="Simulab Course Tags" parent="menu_configuration" action="simulab_course_tag_action"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_simulab_course_tag_group_action" name="Simulab Course Tag Groups" parent="menu_configuration" action="simulab_course_tag_group_action"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_action_simulab_experiment_tag" name="Simulab Experiment Tags" parent="menu_configuration" action="action_simulab_experiment_tag"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_action_simulab_faq_form" name="Simulab FAQs" parent="menu_configuration" action="action_simulab_faq_form" />
+
+    <menuitem id="menu_action_simulab_faq_category" name="Simulab FAQ Category" parent="menu_configuration" action="action_simulab_faq_category"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_action_simulab_course_view_line" name="Course Views Lines" parent="menu_configuration" action="action_simulab_course_view_line"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_notification_template" name="Notification Template" parent="menu_configuration" action="action_notification_template_form"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_simulab_notification" name="SimuLab Notifications" parent="menu_configuration" action="action_simulab_notification_form"
+        groups="simulab.group_simulab_administration"
+    />
+
+
+    <menuitem id="menu_dashboard_simulab" name="Student Dashoboard" parent="menu_configuration" action="action_dashboard_simulab"
+        groups="simulab.group_simulab_administration"
+    />
+
+    <menuitem id="menu_simulab_school_class_dashboard" name="School Class Dashoboard" parent="menu_configuration" action="action_simulab_school_class_dashboard"
+        groups="simulab.group_simulab_administration"
+    />
+
+</odoo>

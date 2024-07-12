@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="search_simulab_course_view_line" model="ir.ui.view">
+        <field name="name">simulab.course.view.line.search</field>
+        <field name="model">simulab.course.view.line</field>
+        <field name="arch" type="xml">
+            <search string="Course Views">
+                <field name="who_viewed" />
+                <field name="course_id" />
+                <field name="create_date" />
+                <field name="write_date" />
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record id="tree_simulab_course_view_line" model="ir.ui.view">
+        <field name="name">simulab.course.view.line.tree</field>
+        <field name="model">simulab.course.view.line</field>
+        <field name="arch" type="xml">
+            <tree string="Course Views">
+                <field name="name" />
+                <field name="course_id" />
+                <field name="create_date" optional="hide" />
+                <field name="write_date" />
+                <field name="who_viewed" />
+                <field name="teacher_id" optional="hide" />
+                <field name="student_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="form_simulab_course_view_line" model="ir.ui.view">
+        <field name="name">simulab.course.view.line.form</field>
+        <field name="model">simulab.course.view.line</field>
+        <field name="arch" type="xml">
+            <form string="Course Views">
+                <group>
+                    <field name="course_id" />
+                    <field name="who_viewed" />
+                    <field name="name" />
+                    <field name="student_id" />
+                    <field name="teacher_id" />
+                    <field name="create_date" />
+                    <field name="write_date" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_simulab_course_view_line" model="ir.actions.act_window">
+        <field name="name">Course Views</field>
+        <field name="res_model">simulab.course.view.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="search_simulab_course_view" model="ir.ui.view">
+        <field name="name">simulab.course.view.search</field>
+        <field name="model">simulab.course.view</field>
+        <field name="arch" type="xml">
+            <search string="Course Views">
+                <field name="course_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="tree_simulab_course_view" model="ir.ui.view">
+        <field name="name">simulab.course.view.tree</field>
+        <field name="model">simulab.course.view</field>
+        <field name="arch" type="xml">
+            <tree string="Course Views">
+                <field name="course_id" />
+                <field name="view_count" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="form_simulab_course_view" model="ir.ui.view">
+        <field name="name">simulab.course.view.form</field>
+        <field name="model">simulab.course.view</field>
+        <field name="arch" type="xml">
+            <form string="Course Views">
+                <group>
+                    <field name="course_id" />
+                    <field name="view_count" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_simulab_course_view" model="ir.actions.act_window">
+        <field name="name">Course Views</field>
+        <field name="res_model">simulab.course.view</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

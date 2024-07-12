@@ -1,0 +1,36 @@
+<odoo>
+  <data>
+    <!-- Server action to fetch trial balance data -->
+    <record model="ir.actions.server" id="immersive_trial_balance_report.action_fetch_trial_balance">
+      <field name="name">Fetch Trial Balance Data</field>
+      <field name="model_id" ref="model_immersive_trial_balance_report_immersive_trial_balance_report"/>
+      <field name="state">code</field>
+      <field name="code">
+          model.fetch_trial_balance_data()
+      </field>
+    </record>
+
+    <!-- Action opening views on models -->
+    <record model="ir.actions.act_window" id="immersive_trial_balance_report_action_window">
+      <field name="name">Immersive Trial Balance Report</field>
+      <field name="res_model">immersive_trial_balance_report.immersive_trial_balance_report</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[]</field>
+      <field name="context">{}</field>
+    </record>
+
+    <record id="action_account_moves_trail_balance_general" model="ir.actions.server">
+      <field name="name">Trial Balance</field>
+      <field name="model_id" ref="model_immersive_trial_balance_report_immersive_trial_balance_report"/>
+      <field name="state">code</field>
+      <field name="code">action = model.fetch_trial_balance_data()</field>
+    </record>
+
+    <!-- Adding new menu item as a main menu -->
+    <!-- <menuitem id="menu_immersive_trial_balance_report_action_window" name="Trial Balance" action="immersive_trial_balance_report_action_window" sequence="3"/> -->
+    <menuitem id="menu_action_account_moves_trail_balance_general"
+                  name="Trial Balance"
+                  action="action_account_moves_trail_balance_general"                 
+                  sequence="3"/>
+  </data>
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+
+        <record id="view_employee_filter_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.search.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="identification_id" />
+                    <field name="pan" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+            <field name="arch" type="xml">
+                <field name="identification_id" position="after">
+                    <field name="pan" />
+                    <field name="aadhar" />
+                    <field name="uan" />
+                </field>
+                <field name="emergency_phone" position="after">
+                    <field name="blood_group" />
+                    <field name="father_name" />
+                    <field name="husband_name" />
+                </field>
+
+                <field name="job_id" position="before">
+                    <field name="sanctioned_leaves" />
+                    <field name="doj" />
+                    <field name="resignation_date" />
+                    <field name="resignation_status" />
+                    <field name="exit_date" />
+                </field>
+
+            </field>
+        </record>
+
+
+        <record id="view_employee_tree_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.tree.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="identification_id" />
+                </field>
+            </field>
+
+        </record>
+
+
+    </data>
+</odoo>

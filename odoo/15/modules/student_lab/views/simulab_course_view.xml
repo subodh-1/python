@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SLIDE.CHANNEL VIEWS -->
+    <record model="ir.ui.view" id="view_simulab_course_form">
+        <field name="name">simulab.course.view.form</field>
+        <field name="model">simulab.course</field>
+        <field name="arch" type="xml">
+            <form string="Courses">
+                <sheet>
+                    <field name="is_published" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_experiments"  style="width:150pt;" type="object" icon="fa-files-o"
+                            class="oe_stat_button">
+                            <div class="o_field_widget o_stat_info">
+                                <span style="width:150pt;" class="o_stat_value">
+                                    <field name="total_experiments" nolabel="1"  />
+                                    Experiment
+                                </span>
+                            </div>
+                        </button>
+                        <button name="action_count_members" type="object" icon="fa-users"  style="width:150pt;"
+                            class="oe_stat_button">
+                            <field name="members_count" string="Enrolled Students" widget="statinfo"/>
+                        </button>
+
+                        <button name="action_publish" type="object" icon="fa-university" groups="simulab.group_simulab_administration" string="Publish Now" style="color:red"
+                            class="oe_stat_button" attrs="{'invisible': [('is_published', '=', True)]}">
+                        </button>
+
+                        <button name="action_published" type="object" icon="fa-university" groups="simulab.group_simulab_administration" string="Published" style="color:green"
+                            class="oe_stat_button" attrs="{'invisible': [('is_published', '=', False)]}">
+                        </button>
+
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}" />
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                        options="{'preview_image': 'image_128'}" />
+                    <div class="oe_title">
+                        <label for="name" string="Course Title" />
+                        <h1>
+                            <field name="name" default_focus="1"
+                                placeholder="e.g. Physics Practicals for 12th Standard" />
+                        </h1>
+                    </div>
+                    <div>
+                        <field name="active" invisible="1" />
+                        <field name="tag_ids" widget="many2many_tags"
+                            options="{'color_field': 'color'}" placeholder="Tags" />
+                    </div>
+                    <group col="4" colspan="4">
+                        <field name="simulab_id" class="oe_read_only"
+                            groups="simulab.group_simulab_administration" />
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="parent_id" />
+                        <field name="medium_id" />
+                        <field name="grade_id" />
+                        <field name="subject_id" />
+                        <field name="trial_package" widget="switch" />
+                        <label for="total_time" />
+                        <div>
+                            <field name="total_time" widget="float_time"
+                                class="oe_inline" />
+                            <span>Mins.</span>
+                        </div>
+                        <field name="discounted_price" />
+                        <label for="subscription_period" string="Subscription Period" class="oe_inline oe_read_only" />
+                        <field name="subscription_period" nolabel="1" class="oe_read_only"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page name="experiment" string="Experiment">
+                            <field name="experiment_lines" class="oe_edit_only">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="experiment_id" />
+                                    <field name="grade_id" />
+                                    <field name="subject_id" />
+                                    <field name="completion_time" />
+                                </tree>
+                            </field>
+                            <field name="experiment_ids" class="oe_read_only" mode="kanban" options="{'not_delete': True}">
+                                <kanban quick_create="false" create="false" delete="true">
+                                    <field name="id" />
+                                    <field name="name" />
+                                    <field name="completion_time"/>
+                                    <field name="tag_ids"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div style="width: 100%;padding: 0px 0px;
+                                            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);transition: 0.3s;border-radius: 5px;">
+                                                <a name="action_experiment_click" type="object">
+                                                <style>
+                                                    .container > h4{
+                                                    font-family: 'Ubuntu';
+                                                    font-style: normal;}
+                                                    .container2{
+                                                    font-family: 'Lato';
+                                                    font-style: normal;
+                                                    color: #6A6F77;
+                                                    font-size: 14px;
+                                                    }
+                                                </style>
+
+                                                <div class="o_kanban_record_top" style="margin-bottom: 0px;">
+                                                    <img t-att-src="kanban_image('simulab.experiment', 'image_1920', record.id.raw_value)"
+                                                            class="oe_avatar oe_kanban_avatar_smallbox o_image_40_cover mb0" alt="Avatar"
+                                                            style="width: 120px;height: 120px;border-radius: 5px 0px 0px 5px;"/>
+                                                    <div class="o_kanban_record_headings ml8">
+                                                        <strong class="o_kanban_record_title container">
+                                                            <h4 style="font-size: 20px;">
+                                                                <field name="name"/>
+                                                            </h4>
+                                                            <img src="/simulab/static/src/img/clock.png" alt="Avatar" style="width: 20px;height: 20px;"/>
+                                                            <span class="container2" style="margin-left: 1px;">
+                                                                <field name="completion_time" widget="float_time"/> Mins.
+                                                            </span>
+                                                            <span class="container2">
+                                                                <field name="tag_ids" widget="many2many_tags"
+                                                                        options="{'color_field': 'color'}" placeholder="Tags" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                </a>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page name="description" string="Description">
+                            <group>
+                                <field name="description" colspan="4"
+                                    placeholder="Describe about the course and it's content" />
+                            </group>
+                            <group>
+                                <field name="learning_details" colspan="4"
+                                    placeholder="What you will learn from this course" />
+                            </group>
+                            <group name="pricing_details" string="Pricing Details">
+                                <group>
+                                    <field name="price" />
+                                    <field name="discounted_price" />
+                                </group>
+                                <group>
+                                    <field name="price_desc" />
+                                    <field name="price_valid_date" class="oe_edit_only" />
+                                    <field name="validity_days" class="oe_edit_only"/>
+                                </group>
+                            </group>
+                            <group name="Competitive Exam Marks" string="Competitive Exam Marks">
+                                <field name="marks_ids" string="Content" colspan="4" nolabel="1">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="marks" />
+                                        <field name="note" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="simulab_course_view_tree" model="ir.ui.view">
+        <field name="name">simulab.course.view.tree</field>
+        <field name="model">simulab.course</field>
+        <field name="arch" type="xml">
+            <tree string="Courses" sample="1">
+                <field name="sequence" widget="handle" />
+                <field name="simulab_id" class="oe_read_only"
+                    groups="simulab.group_simulab_administration" />
+                <field name="name" />
+                <field name="parent_id" />
+                <field name="medium_id" />
+                <field name="grade_id" />
+                <field name="subject_id" />
+                <field name="trial_package" />
+                <field name="price" />
+                <field name="discounted_price" />
+                <field name="subscription_period" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="simulab_course_view_kanban" model="ir.ui.view">
+        <field name="name">simulab.course.view.kanban</field>
+        <field name="model">simulab.course</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="image_1920"/>
+                <field name="description"/>
+                <field name="tag_ids"/>
+                <field name="members_count"/>
+                <field name="total_experiments"/>
+                <field name="grade_id" />
+                <field name="subject_id" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click" style="width: 400px;padding: 0px 0px;border-radius: 5px 5px 5px 5px;">
+                            <style>
+                                img {
+                                    border-radius: 5px 5px 0 0;
+                                    display: block;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                }
+                                .container{
+                                    font-family: 'Lato';
+                                    font-style: normal;
+                                    color: #6A6F77;
+                                    font-size: 12px;
+                                }
+                                .container > h4{
+                                font-family: 'Ubuntu';
+                                font-style: normal;
+                                font-size: 16px;}
+                                .container2{
+                                    font-family: 'Lato';
+                                    font-style: normal;
+                                    color: #6A6F77;
+                                    font-size: 12px;
+                                }
+                            </style>
+                            <div class="row">
+                                <div class="col-12">
+                                    <img t-att-src="kanban_image('simulab.course', 'image_1920', record.id.raw_value)"
+                                         class="img-fluid" alt="Avatar" style="height: 150px;"/>
+                                    <div class="container2"
+                                         style="position: absolute;top: 0px;right: 16px;background-color: #f3f95bd1;border-radius: 0px 0px 0px 5px;padding: 3px;">
+                                        <field name="grade_id" /> - <field name="subject_id" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-12 container" style="margin-left: 5px;margin-right: 5px;margin-top: 5px;">
+                                    <h4>
+                                        <field name="name"/>
+                                    </h4>
+                                </div>
+                                <div class="col-12 container" style="margin-left: 5px;margin-right: 5px;margin-top: -5px;">
+                                    <field name="description" widget="html"/>
+                                </div>
+                                <div class="col-12 container" style="margin-left: 5px;margin-right: 5px;">
+                                    <field name="tag_ids" widget="many2many_tags"
+                                        options="{'color_field': 'color'}" placeholder="Tags" />
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom:5px">
+                                <div class="col-6 container">
+                                    <div style="display: flex;">
+                                        <img src="/simulab/static/src/img/folder_icon.png" alt="Avatar"
+                                             style="width:16px;height: 16px;margin-left: 5px;margin-right: 0px;"/>
+                                        <span style="margin-left: 3px;">
+                                            <field name="total_experiments"/>
+                                        </span>
+                                        <span style="margin-left: 2px;">Experiments</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 container">
+                                    <div style="justify-content: right; display: flex;margin-right: 5px;">
+                                        <span style="margin-left: 2px;">
+                                            <field name="members_count"/>+
+                                        </span>
+                                        <span style="margin-left: 2px;">Students</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="simulab_course_view_tree_report" model="ir.ui.view">
+        <field name="name">simulab.course.view.tree.report</field>
+        <field name="model">simulab.course</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree string="Courses" create="false" sample="1">
+                <field name="name" />
+                <field name="total_time" widget="float_time" />
+                <field name="members_count" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="simulab_course_view_search" model="ir.ui.view">
+        <field name="name">simulab.course.view.search</field>
+        <field name="model">simulab.course</field>
+        <field name="arch" type="xml">
+            <search string="Courses">
+                <field name="name" string="Course" />
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="simulab_course_view_graph" model="ir.ui.view">
+        <field name="name">simulab.course.view.graph</field>
+        <field name="model">simulab.course</field>
+        <field name="arch" type="xml">
+            <graph string="Courses" sample="1">
+                <field name="name" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="simulab_course_action_overview" model="ir.actions.act_window">
+        <field name="name">Courses</field>
+        <field name="res_model">simulab.course</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="simulab_course_view_kanban" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a course
+            </p>
+        </field>
+    </record>
+
+    <record id="simulab_course_action_report" model="ir.actions.act_window">
+        <field name="name">Courses</field>
+        <field name="res_model">simulab.course</field>
+        <field name="view_mode">tree,graph,form</field>
+        <field name="view_id" ref="simulab_course_view_kanban" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a course
+            </p>
+        </field>
+    </record>
+</odoo>

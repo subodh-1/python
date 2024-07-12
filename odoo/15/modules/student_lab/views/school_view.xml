@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="view_state_city_form" model="ir.ui.view">
+        <field name="name">res.city.form</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="state_id"  domain="[('country_id', '=', country_id)]"/>
+                            <field name="zipcode"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_state_city_tree" model="ir.ui.view">
+        <field name="name">res.city.tree</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="state_id"/>
+                <field name="zipcode"/>
+                <field name="country_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_state_city" model="ir.actions.act_window">
+        <field name="name">State Cities</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.city</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_state_city_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create State City
+            </p>
+        </field>
+    </record>
+
+    <!-- Form View Of School Information -->
+    <record id="view_simulab_school_form" model="ir.ui.view">
+        <field name="name">simulab.school.form</field>
+        <field name="model">simulab.school</field>
+        <field name="arch" type="xml">
+            <form string="School Information">
+                <sheet>
+                    <field name="logo" widget="image" class="oe_avatar"/>
+                    <group col="4" colspan="4">
+                        <field name="name" string="Name" placeholder="School Name" />
+                        <field name="simulab_id" groups="simulab.group_simulab_administration"  placeholder=" School Code" class="oe_read_only"/>
+                    </group>
+                    <group>
+                        <label for="street" string="Address" />
+                        <div class="o_address_format">
+                            <field name="street" class="o_address_street" placeholder="Street..." />
+                            <field name="street2" class="o_address_street" placeholder="Street2..." />
+                            <field name="country_id" class="o_address_city,oe_no_button" placeholder="Country"  options="{&quot;no_open&quot;: true}" required="1"/>
+                            <field name="state_id" class="o_address_state" domain="[('country_id','=',country_id)]" required="1" placeholder="State" options="{&quot;no_open&quot;: true}" />
+                            <field name="res_city" class="o_address_city" placeholder="City" required="1" />
+                            <field name="zip" class="o_address_zip" placeholder="Pin Code" />
+                        </div>
+                    </group>
+
+                    <group  colspan="4" col="4">
+                        <group colspan="2" col="2">
+                            <field name="punch_line" />
+                            <field name="phone" class="o_force_ltr" />
+                            <field name="mobile" class="o_force_ltr" />
+                            <field name="email" />
+                            <field name="website" string="Website" widget="url"
+                                placeholder="e.g. https://www.immersivelabz.com" />
+                            <field name="parent_id" string="Organinzation"
+                                groups="simulab.group_simulab_administration" />
+                            <field name="favicon" widget="image" class="float-left oe_avatar" />
+                        </group>
+
+                        <group colspan="2" col="2">
+                            <field name="exp_completed" />
+                            <field name="exp_completed_ontime" />
+                            <field name="exp_overdue" />
+                            <field name="quiz_completed" />
+                            <field name="quiz_completed_ontime" />
+                            <field name="quiz_passed" />
+                            <field name="quiz_failed" />
+                            <field name="quiz_overdue" />
+                        </group>
+                    </group>
+
+                    <notebook colspan="4" class="oe_read_only" groups="simulab.group_simulab_administration">
+                        <page string="Standards">
+                            <field name="standards" nolabel="1" colspan="4" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View Of School Information -->
+    <record id="view_simulab_school_tree" model="ir.ui.view">
+        <field name="name">simulab.school.tree</field>
+        <field name="model">simulab.school</field>
+        <field name="arch" type="xml">
+            <tree string="School Information">
+                <field name="name" string="School Name" />
+                <field name="res_city" />
+                <field name="simulab_id" class="oe_read_only"  groups="simulab.group_simulab_administration" />
+            </tree>
+        </field>
+    </record>
+    <!-- Form View Of School Standard Information -->
+    <record id="view_school_standard_form" model="ir.ui.view">
+        <field name="name">school.standard.form</field>
+        <field name="model">school.standard</field>
+        <field name="arch" type="xml">
+            <form string="Standard Information">
+                <sheet>
+                    <separator string="Standard Information" />
+                    <group col="4" colspan="4">
+                        <field name="school_id"  placeholder="School" groups="simulab.group_simulab_administration" />
+                        <field name="standard_id" placeholder="Standard"/>
+                        <field name="division_id" placeholder="Section" domain="[('school_id', '=', school_id)]" />
+                        <field name="date_start" />
+                        <field name="date_stop"/>
+                        <field name="total_students" class="oe_read_only"/>
+                        <field name="simulab_id" groups="simulab.group_simulab_administration" class="oe_read_only"/>
+                        <field name="exams_id"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Students" name="students" >
+                            <field name="student_ids" nolabel="1" colspan="4" domain="[('school_id', '=', school_id)]" >
+                                <tree string="Student Information">
+                                    <field name="simulab_id"  class="oe_read_only" groups="simulab.group_simulab_administration" />
+                                    <field name="name" />
+                                    <field name="login" />
+                                    <field name="mobile" />
+                                    <field name="email" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Teachers" name="teachers" >
+                            <field name="teacher_ids" nolabel="1" colspan="4"  domain="[('school_id', '=', school_id)]">
+                                <tree string="Teachers List">
+                                    <field name="name" />
+                                    <field name="mobile" />
+                                    <field name="phone" />
+                                    <field name="email" />
+                                    <field name="department_id" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Enrolled Courses" name="courses">
+                            <field name="course_lines" nolabel="1" colspan="4" domain="[('owner_id','=',False)]" context="{'school_id':school_id, 'class_id':id}">
+                                <tree string="Enrolled Courses"  decoration-success="is_purchased==True">
+                                    <field name="course_id" />
+                                    <field name="trial_package" />
+                                    <field name="price" />
+                                    <field name="purchased_price" />
+                                    <field name="subscription_period" />
+                                    <field name="is_purchased"  optional="hide"/>
+                                    <field name="purchased_date"  optional="hide"/>
+                                    <field name="purchased_count"  optional="hide"/>
+                                </tree>
+                                <form string="Enroll A New Course">
+                                    <group colspan="4">
+                                        <group>
+                                            <field name="course_id" />
+                                            <field name="price" />
+                                            <field name="discounted_price" />
+                                            <field name="price_desc" />
+                                        </group>
+                                        <group>
+                                            <field name="trial_package" />
+                                            <label for="subscription_period" string="Subscription Period"  />
+                                            <field name="subscription_period" nolabel="1"/>
+                                        </group>
+                                    </group>
+                                    <group attrs="{'invisible': [('special_price_desc', '=', False)]}" >
+                                        <div class="oe_title">
+                                            <h2>
+                                                <field name="special_price_desc" style="width: 70%"
+                                                    force_save="1" />
+                                                <field name="company_currency" invisible="1"/>
+                                                <field name="purchased_price" style="width: 30%"
+                                                    readonly="1" force_save="1" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                            </h2>
+                                        </div>
+                                    </group>
+
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View Of School Standard Information -->
+    <record id="view_school_standard_tree" model="ir.ui.view">
+        <field name="name">school.standard.tree</field>
+        <field name="model">school.standard</field>
+        <field name="arch" type="xml">
+            <tree string="Standard Information">
+                <field name="simulab_id"  class="oe_read_only" groups="simulab.group_simulab_administration" />
+                <field name="standard_id"/>
+                <field name="division_id"/>
+                <field name="total_students" string="Students Count"/>
+                <field name="school_id" groups="simulab.group_simulab_administration"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View Of School Standard Information -->
+    <record id="view_student_student_search" model="ir.ui.view">
+        <field name="name">school.standard.search</field>
+        <field name="model">school.standard</field>
+        <field name="arch" type="xml">
+            <search string="Standard Information">
+                <group col="10" colspan="4">
+                    <field name="school_id" />
+                    <field name="standard_id" />
+                    <field name="user_id" />
+                    <field name="division_id" />
+                </group>
+                <newline />
+                <group expand="0" string="Group By..." colspan="12" col="10">
+                    <filter name="school" string="School" help="By School" context="{'group_by':'school_id'}" />
+                    <filter name="class" string="Class" help="By Class" context="{'group_by':'standard_id'}" />
+                    <filter name="division" string="Section" help="By Section" context="{'group_by':'division_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View Of Standard Section Information-->
+    <record id="view_standard_division_form" model="ir.ui.view">
+        <field name="name">standard.division.form</field>
+        <field name="model">standard.division</field>
+        <field name="arch" type="xml">
+            <form string="Sections">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="name" placeholder="Name" />
+                        <field name="school_id" groups="simulab.group_simulab_administration"/>
+                        <newline />
+                        <field name="description" colspan="4" placeholder="Description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View Of Standard Section Information-->
+    <record id="view_standard_division_tree" model="ir.ui.view">
+        <field name="name">standard.division.tree</field>
+        <field name="model">standard.division</field>
+        <field name="arch" type="xml">
+            <tree string="Sections">
+                <field name="name" />
+                <field name="school_id" groups="simulab.group_simulab_administration"/>
+                <field name="description" colspan="4" placeholder="Description"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Form View Of Subject's Information -->
+    <record id="view_subject_subject_form" model="ir.ui.view">
+        <field name="name">subject.subject.form</field>
+        <field name="model">subject.subject</field>
+        <field name="arch" type="xml">
+            <form string="Subjects">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="name" placeholder="Name" />
+                        <field name="stream" placeholder="Select Stream" />
+                        <field name="code" placeholder="Code" />
+                    </group>
+                    <field name="description" placeholder="Description" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View Of Subject's Information -->
+    <record id="view_subject_subject_tree" model="ir.ui.view">
+        <field name="name">subject.subject.tree</field>
+        <field name="model">subject.subject</field>
+        <field name="arch" type="xml">
+            <tree string="Subjects">
+                <field name="name" />
+                <field name="stream" />
+                <field name="code" placeholder="Code" />
+            </tree>
+        </field>
+    </record>
+    <!-- Form View Of Standard Information -->
+    <record id="view_standard_standard_form" model="ir.ui.view">
+        <field name="name">standard.standard.form</field>
+        <field name="model">standard.standard</field>
+        <field name="arch" type="xml">
+            <form string="Standard Information">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="sequence"/>
+                        <newline />
+                        <field name="name" placeholder="Name"/>
+                        <field name="code" placeholder="Code"/>
+                        <newline />
+                        <field name="description" colspan="4" placeholder="Description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View Of Standard Information -->
+    <record id="view_standard_standard_tree" model="ir.ui.view">
+        <field name="name">standard.standard.tree</field>
+        <field name="model">standard.standard</field>
+        <field name="arch" type="xml">
+            <tree string="Standard Information">
+                <field name="sequence" />
+                <field name="name" />
+                <field name="code" />
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- Action Of Form & Tree Views Of School Information -->
+    <record id="action_simulab_school_form" model="ir.actions.act_window">
+        <field name="name">Schools</field>
+        <field name="res_model">simulab.school</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action Of Form & Tree Views Of School Standard -->
+    <record id="action_school_standard_form" model="ir.actions.act_window">
+        <field name="name">Classes</field>
+        <field name="res_model">school.standard</field>
+        <field name="context">{'enrolment_view':'school_class_view'}</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- Action Of Form & Tree Views Of Standard Section Information Action -->
+    <record id="action_standard_division_form" model="ir.actions.act_window">
+        <field name="name">Sections</field>
+        <field name="res_model">standard.division</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action Of Form & Tree Views Of Subject Information -->
+    <record id="action_subject_subject_form" model="ir.actions.act_window">
+        <field name="name">Subjects</field>
+        <field name="res_model">subject.subject</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Action Of Form & Tree Views Of Standard Information -->
+    <record id="action_standard_standard_form" model="ir.actions.act_window">
+        <field name="name">Standards</field>
+        <field name="res_model">standard.standard</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MenuItem For Configurations->Subject -->
+    <!-- Inherited Form View Of Company -->
+    <record id="view_company_form_inherit" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="string">School Name</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_school_department" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">school.department</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="school_department_form_view" model="ir.ui.view">
+        <field name="name">school.department.form</field>
+        <field name="model">school.department</field>
+        <field name="arch" type="xml">
+            <form string="Department">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="name" />
+                        <field name="note" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="school_department_tree_view" model="ir.ui.view">
+        <field name="name">school.department.tree</field>
+        <field name="model">school.department</field>
+        <field name="arch" type="xml">
+            <tree string="Department">
+                <field name="name" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_student_exams" model="ir.actions.act_window">
+        <field name="name">Competitive Exams</field>
+        <field name="res_model">student.exams</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_edu_boards" model="ir.actions.act_window">
+        <field name="name">Education Boards</field>
+        <field name="res_model">edu.boards</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_student_institute" model="ir.actions.act_window">
+        <field name="name">Student Institutions</field>
+        <field name="res_model">student.institute</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

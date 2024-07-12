@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_login_otp_search" model="ir.ui.view">
+        <field name="name">login.otp.search</field>
+        <field name="model">login.otp</field>
+        <field name="arch" type="xml">
+            <search string="Login OTP Register">
+                <field name="name" />
+                <field name="login" />
+                <field name="mobile" />
+                <field name="email" />
+                <field name="user_id" />
+                <field name="create_date" />
+                <field name="write_date" />
+                <field name="sms_ref" />
+                <field name="device_type" />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_login_otp_tree" model="ir.ui.view">
+        <field name="name">login.otp.tree</field>
+        <field name="model">login.otp</field>
+        <field name="arch" type="xml">
+            <tree string="Login OTP Register">
+                <field name="name" />
+                <field name="login" />
+                <field name="mobile" />
+                <field name="email" optional="hide"/>
+                <field name="user_id" />
+                <field name="create_date" />
+                <field name="write_date" />
+                <field name="user_id" optional="hide" />
+                <field name="opt_in" />
+                <field name="sms_ref" />
+                <field name="device_id" optional="hide" />
+                <field name="device_details" optional="hide" />
+                <field name="device_type" optional="hide" />
+
+                <field name="company_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_login_otp_form" model="ir.ui.view">
+        <field name="name">login.otp.form</field>
+        <field name="model">login.otp</field>
+        <field name="arch" type="xml">
+            <form string="Login OTP Register">
+                <group>
+                    <field name="name" />
+                    <field name="mobile" />
+                    <field name="email" />
+                    <field name="user_id" />
+                    <field name="opt_in" />
+                </group>
+                <group>
+                    <field name="create_date" />
+                    <field name="write_date" />
+                    <field name="otp" />
+                    <field name="sms_ref" />
+                    <field name="device_id" />
+                    <field name="device_details" />
+                    <field name="device_type" />
+                    <field name="company_id" optional="hide" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_login_otp_form" model="ir.actions.act_window">
+        <field name="name">Login OTP Register</field>
+        <field name="res_model">login.otp</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="res_users_view_form_simulab" model="ir.ui.view">
+        <field name="name">res.users.simulab.form.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="simulab_user" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_users_view_tree_simulab" model="ir.ui.view">
+        <field name="name">res.users.simulab.tree.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lang']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='login_date']" position="before">
+                <field name="managed_user" />
+                <field name="simulab_user" />
+                <field name="create_date" />
+            </xpath>
+            <xpath expr="//field[@name='login_date']" position="after">
+                <field name="write_date" />
+                <field name="company_id" string="School"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

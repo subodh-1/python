@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="enrolled_course_tree_view" model="ir.ui.view">
+        <field name="name">enrolled.course.tree</field>
+        <field name="model">enrolled.course</field>
+        <field name="arch" type="xml">
+            <tree string="Enrolled Courses" create="false" decoration-success="is_purchased==True">
+                <field name="simulab_id" class="oe_read_only"/>
+                <field name="student_id" />
+                <field name="class_id" optional="hide"/>
+                <field name="course_id" />
+                <field name="is_purchased" />
+                <field name="price" />
+                <field name="purchased_price" />
+                <field name="total_price" />
+
+                <field name="purchased_date" />
+                <field name="price_valid_date" />
+                <field name="subscription_period" optional="hide"/>
+                <field name="trial_package" />
+                <field name="school_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="enrolled_course_search_view" model="ir.ui.view">
+        <field name="name">enrolled.course.search</field>
+        <field name="model">enrolled.course</field>
+        <field name="arch" type="xml">
+            <search string="Enrolled Courses">
+                <field name="student_id" />
+                <field name="class_id"  />
+                <field name="school_id" />
+                <field name="course_id" />
+                <field name="is_purchased" />
+                <field name="purchased_date" />
+                <field name="price_valid_date" />
+                <field name="trial_package" />
+            </search>
+        </field>
+    </record>
+
+    <record id="enrolled_course_form_view" model="ir.ui.view">
+        <field name="name">enrolled.course.form</field>
+        <field name="model">enrolled.course</field>
+        <field name="arch" type="xml">
+            <form string="My Purchased Course" create="false">
+                <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button icon="fa-trophy" class="oe_stat_button"
+                            name="student_purchase_count" type="object">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_purchased" nolabel="1" />
+                                    Purchased
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group col="4" colspan="4">
+                        <field name="simulab_id" class="oe_read_only"/>
+                        <field name="sku_id" optional="hide"/>
+                        <field name="student_id" />
+                        <field name="class_id" optional="hide"/>
+                        <field name="course_id" />
+                        <field name="is_purchased" />
+                        <field name="price" />
+                        <field name="purchased_price" />
+                        <field name="total_price" />
+
+                        <field name="purchased_date" />
+                        <field name="price_valid_date" />
+                        <field name="subscription_period" optional="hide"/>
+                        <field name="trial_package" />
+                        <field name="school_id" />
+                    </group>
+
+                    <group name="analytics_and_settings" string="Analytics"
+                        groups="simulab.group_simulab_administration">
+                        <field name="count_exp_completed" />
+                        <field name="count_exp_in_progress" />
+                        <field name="count_exp_not_started" />
+                        <field name="total_exp_count" />
+                    </group>
+                    <button name="buy_now" type="object" string="Buy Now"
+                        groups="simulab.group_simulab_administration"
+                        class="oe_highlight oe_right" style="margin: 10px;"
+                        attrs="{'invisible': [('is_purchased', '=', True)]}"></button>
+                    <field name="child_ids" string="Student Enrolments" nolabel="1" colspan="4"
+                        attrs="{'invisible': [('child_ids', '=', [])]}">
+                        <tree decoration-success="is_purchased==True">
+                            <field name="simulab_id" class="oe_read_only"/>
+                            <field name="sku_id" optional="hide"/>
+                            <field name="student_id" />
+                            <field name="class_id" optional="hide"/>
+                            <field name="course_id" />
+                            <field name="is_purchased" />
+                            <field name="price" />
+                            <field name="purchased_price" />
+                            <field name="total_price" />
+
+                            <field name="purchased_date" />
+                            <field name="price_valid_date" />
+                            <field name="subscription_period" optional="hide"/>
+                            <field name="trial_package" />
+                        </tree>
+                    </field>
+                    <field name="subscription_ids" nolabel="1" string="Transaction Details"
+                        colspan="4" readonly="1"
+                        attrs="{'invisible': [('subscription_ids', '=', [])]}">
+                        <tree string="Subscription Transactions"
+                            decoration-success="payment_status=='success'"
+                            decoration-danger="payment_status=='failed'"
+                            decoration-warning="payment_status=='inprocess'"
+                            decoration-info="payment_status=='refunded'">
+                            <field name="transaction_id" class="oe_read_only"  optional="hide"/>
+                            <field name="payment_order_id" class="oe_read_only"/>
+                            <field name="total_amount" class="oe_read_only"/>
+                            <field name="write_date" class="oe_read_only"/>
+                            <field name="payment_status"/>
+
+                            <field name="payment_source" class="oe_read_only"  optional="hide"/>
+                            <field name="course_id" class="oe_read_only"/>
+                            <field name="student_id" class="oe_read_only"/>
+                            <field name="school_id" class="oe_read_only"/>
+                            <field name="razorpay_status" class="oe_read_only"  optional="hide"/>
+                            <field name="razorpay_order_id" class="oe_read_only"  optional="hide"/>
+                            <field name="server_pre_response" optional="hide"/>
+                            <field name="server_post_response" optional="hide"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchased_enrolled_course" model="ir.actions.act_window">
+        <field name="name">My Purchased Courses</field>
+        <field name="res_model">enrolled.course</field>
+        <field name="domain">[('is_purchased','=',True), ('student_id','=',False)]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_enrolled_course" model="ir.actions.act_window">
+        <field name="name">My Enrolled Courses</field>
+        <field name="res_model">enrolled.course</field>
+        <field name="domain">[('is_purchased','=',False), ('student_id','=',False) ]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_all_enrolled_courses" model="ir.actions.act_window">
+        <field name="name">All Enrolled Courses</field>
+        <field name="domain">[('student_id','=',False) ]</field>
+        <field name="res_model">enrolled.course</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_student_enrolled_course" model="ir.actions.act_window">
+        <field name="name">Students Enrolled Courses</field>
+        <field name="res_model">enrolled.course</field>
+        <field name="domain">[('student_id','!=',False) ]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="school_class_course_price_tree_view" model="ir.ui.view">
+        <field name="name">school.course.price.tree</field>
+        <field name="model">school.course.price</field>
+        <field name="arch" type="xml">
+            <tree string="Prices for Institutes">
+                <field name="simulab_id" class="oe_read_only"
+                    groups="simulab.group_simulab_administration" />
+                <field name="school_id" />
+                <field name="course_id" />
+                <field name="class_id" />
+                <field name="price" />
+                <field name="discounted_price" />
+                <field name="school_price" />
+                <field name="price_valid_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="school_class_course_price_form_view" model="ir.ui.view">
+        <field name="name">school.course.price.form</field>
+        <field name="model">school.course.price</field>
+        <field name="arch" type="xml">
+            <form string="Prices for Institutes">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="simulab_id" class="oe_read_only"
+                            groups="simulab.group_simulab_administration" />
+                        <field name="school_id" />
+                        <field name="course_id" />
+                        <field name="class_id" />
+                        <field name="school_price" />
+                        <field name="discounted_price" />
+                        <field name="price" />
+                        <field name="price_valid_date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_school_class_course_price" model="ir.actions.act_window">
+        <field name="name">Prices for Institutes</field>
+        <field name="res_model">school.course.price</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="student_experiment_tree_view" model="ir.ui.view">
+        <field name="name">student.experiment.tree</field>
+        <field name="model">student.experiment</field>
+        <field name="arch" type="xml">
+            <tree string="Student Experiments">
+                <field name="simulab_id" class="oe_read_only"
+                    groups="simulab.group_simulab_administration" />
+                <field name="student_id" />
+                <field name="experiment_id" />
+                <field name="course_id" />
+                <field name="class_id" />
+                <field name="school_id" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_student_experiment_search" model="ir.ui.view">
+        <field name="name">student.experiment.search</field>
+        <field name="model">student.experiment</field>
+        <field name="arch" type="xml">
+            <search string="Experiments" >
+                <field name="student_id" />
+                <field name="experiment_id" />
+                <field name="course_id" />
+                <field name="class_id" />
+                <field name="school_id" />
+                <field name="status" />
+            </search>
+        </field>
+    </record>
+
+    <record id="student_experiment_form_view" model="ir.ui.view">
+        <field name="name">student.experiment.form</field>
+        <field name="model">student.experiment</field>
+        <field name="arch" type="xml">
+            <form string="Student Experiments">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="simulab_id" class="oe_read_only"
+                            groups="simulab.group_simulab_administration" />
+                        <field name="student_id" />
+                        <field name="enrolled_course_id" domain="[('student_id','=',student_id)]" />
+                        <field name="experiment_id" />
+                    </group>
+                    <group col="4" colspan="4">
+                        <field name="course_id" />
+                        <field name="class_id" />
+                        <field name="school_id" />
+                        <field name="status" />
+                    </group>
+
+                    <group name="quiz_details" string="Experiemnts Quizes">
+                        <field name="quiz_ids" nolabel="1" readonly="1" >
+                            <tree>
+                                <field name="sequence" widget="handle" />
+                                <field name="name" />
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group name="analytics_and_settings" string="Analytics And Settings"
+                        groups="simulab.group_simulab_administration">
+                        <field name="simulation_progress" />
+                        <field name="simulation_time" />
+                        <field name="simulation_days" />
+                        <field name="planned_start_date" />
+                        <field name="planned_end_date" />
+                        <field name="simulation_quiz_score" />
+                        <field name="simulation_milestone" />
+                        <separator string="Settings" />
+                        <field name="simulation_ini_file" />
+                        <field name="exp_setting_sound" />
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_experiment" model="ir.actions.act_window">
+        <field name="name">Student Experiments</field>
+        <field name="res_model">student.experiment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="subscription_transaction_tree" model="ir.ui.view">
+        <field name="name">simulab.subscription.tree</field>
+        <field name="model">simulab.subscription</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Transactions" decoration-success="payment_status=='success'"
+                decoration-danger="payment_status=='failed'"
+                decoration-warning="payment_status=='inprocess'"
+                decoration-info="payment_status=='refunded'">
+                <field name="transaction_id" optional="hide"/>
+                <field name="payment_order_id" />
+                <field name="write_date" />
+                <field name="payment_status" />
+                <field name="purchased_count" />
+                <field name="total_amount" />
+                <field name="payment_source" />
+                <field name="course_id" />
+                <field name="class_id" optional="hide"/>
+                <field name="student_id" />
+                <field name="school_id" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="subscription_transaction_form" model="ir.ui.view">
+        <field name="name">simulab.subscription.form</field>
+        <field name="model">simulab.subscription</field>
+        <field name="arch" type="xml">
+            <form string="Student Experiments">
+                <sheet>
+                    <group col="4" colspan="4">
+                        <field name="student_id"
+                            options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" />
+                        <field name="mobile" />
+                        <field name="course_id" domain="[('student_id','=',student_id)]"
+                            options="{'no_create': True, 'no_quick_create': True, 'no_create_edit':True}" />
+                        <field name="course_simulab_id" />
+
+                        <field name="untaxed_amount" />
+                        <field name="gst_amount" />
+                        <field name="discount_amount" />
+                        <field name="total_amount" />
+
+                        <field name="payment_status" />
+                        <field name="payment_source" />
+                        <field name="payment_order_id" />
+
+                    </group>
+                    <separator/>
+                    <group string="Other Information" col="4" colspan="4">
+                        <field name="school_id" />
+                        <field name="class_id" />
+                        <field name="create_date" readonly="1"/>
+                        <field name="write_date" readonly="1"/>
+
+                        <field name="transaction_id" readonly="1"/>
+                        <field name="simulab_id" />
+
+                        <field name="purchased_count" />
+                        <field name="server_pre_response" />
+                        <field name="razorpay_status" />
+                        <field name="razorpay_payment_id" />
+                        <field name="razorpay_order_id" />
+                        <field name="razorpay_signature" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="subscription_transaction_search" model="ir.ui.view">
+        <field name="name">simulab.subscription.search</field>
+        <field name="model">simulab.subscription</field>
+        <field name="arch" type="xml">
+            <search string="Subscription Transactions">
+                <field name="student_id" />
+                <field name="school_id" />
+                <field name="course_id" />
+                <field name="class_id" />
+                <field name="payment_order_id" />
+                <field name="payment_source" />
+                <field name="transaction_id" />
+                <field name="write_date" />
+                <field name="payment_status" />
+                <field name="total_amount" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_subscription_transactions" model="ir.actions.act_window">
+        <field name="name">Subscription Transactions</field>
+        <field name="res_model">simulab.subscription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

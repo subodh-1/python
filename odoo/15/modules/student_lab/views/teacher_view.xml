@@ -1,0 +1,133 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <!-- search View Of Teahcer's Profiles -->
+        <record id="view_school_teacher_search" model="ir.ui.view">
+            <field name="name">school.teacher.search</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <search string="Teachers">
+                    <field name="name" string="Name" filter_domain="['|',('work_email','ilike',self),('name','ilike',self)]"/>
+                    <field name="department_id"/>
+                    <field name="login"/>
+                    <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="company" string="Company" domain="[]" context="{'group_by':'company_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- tree View Of Teahcer's Profiles -->
+        <record id="view_school_teacher_tree" model="ir.ui.view">
+            <field name="name">school.teacher.tree</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <tree string="Faculty" >
+                    <field name="simulab_id"  class="oe_read_only" groups="simulab.group_simulab_administration" />
+                    <field name="name"/>
+                    <field name="mobile" />
+                    <field name="phone" />
+                    <field name="email"/>
+                    <field name="login"/>
+                    <field name="company_id" string="School" groups="simulab.group_simulab_administration"/>
+                    <field name="department_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View Of Teahcer's Profiles -->
+        <record id="view_school_teacher_form" model="ir.ui.view">
+            <field name="name">school.teacher.form</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <form string="Faculty">
+                    <sheet>
+<!--                         <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;:&quot;image_medium&quot;}"/>
+ -->                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Teacher's Name" required='1'/>
+                            </h1>
+                        </div>
+                        <group colspan="4">
+                            <field name="simulab_id"  class="oe_read_only" groups="simulab.group_simulab_administration" />
+                            <field name="school_id" widget="selection" groups="simulab.group_simulab_administration" />
+                            <field name="is_school_admin" widget="boolean_toggle" groups="simulab.group_simulab_administration" />
+                        </group>
+                        <group>
+                            <field name="standard_ids" widget="many2many" domain="[('school_id', '=', school_id)]"/>
+                        </group>
+                        <group string="Contact Information" colspan="4">
+                            <group >
+                                <field name="mobile" required="1" />
+
+                                <field name="email" placeholder="Email Address" String="Email"
+                                    widget="email" />
+
+                                <field name="email_otp" invisible="1" />
+                                <label for="email_verified" attrs="{'invisible': [('email', '=', False)]}"/>
+                                <div attrs="{'invisible': [('email', '=', False)]}" >
+                                    <field name="email_verified" class="oe_inline" readonly="1" />
+                                    <button string="Verify Email" class="oe_highlight" type="object"
+                                        name="send_verification_email"
+                                        confirm="email-OTP will be sent on this email-id. Do you want to proceed?"
+                                        attrs="{'invisible': ['|',('email_verified', '=', True), ('email_otp', '!=', False)]}" />
+                                </div>
+
+                                <label for="user_email_otp"
+                                    attrs="{'invisible': ['|','|',('email', '=', False),('email_verified', '=', True), ('email_otp', '=', False)]}" />
+                                <div>
+                                    <field name="user_email_otp"
+                                        placeholder="Enter OTP sent on your email id" String="Email OTP"
+                                        attrs="{'invisible': ['|','|',('email', '=', False),('email_verified', '=', True), ('email_otp', '=', False)]}" />
+                                    <button string="Verify Email OTP" class="oe_highlight"
+                                        style="margin:10pt" type="object" name="verify_email_otp"
+                                        attrs="{'invisible': ['|','|',('email', '=', False),('email_verified', '=', True), ('email_otp', '=', False)]}" />
+                                    <button string="Resend Email OTP" class="oe_highlight" type="object"
+                                        name="send_verification_email"
+                                        attrs="{'invisible': ['|','|',('email', '=', False),('email_verified', '=', True), ('email_otp', '=', False)]}" />
+                                </div>
+
+                                <field name="login" class="oe_read_only"
+                                    context="{'default_groups_ref': ['base.group_user']}" />
+                            </group>
+                            <group>
+                                <field name="phone" />
+                                <field name="department_id" />
+                            </group>
+                        </group>
+
+                        <field name="notes" placeholder="Other Information ..." colspan="4" />
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action View Of school teacher-->
+
+        <record id="action_school_teacher_form" model="ir.actions.act_window">
+            <field name="name">Teacher Profile</field>
+            <field name="res_model">school.teacher</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.server" id="action_school_teacher_self_form">
+            <field name="name">My Profile</field>
+            <field name="model_id" ref="simulab.model_school_teacher" />
+            <field name="state">code</field>
+            <field name="code">
+ids = env['school.teacher'].search([('user_id','=',uid)],limit=1)
+action = { "name": ids and ids.name or "Profile","res_model": "school.teacher", "type": "ir.actions.act_window", "view_type": "form", "view_mode": "form", "target": "current", "res_id": ids and ids.id or None}
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
